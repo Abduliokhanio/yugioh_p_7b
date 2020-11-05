@@ -1,5 +1,6 @@
 class Card {
-    constructor(id, name, desc, img_sm, cardPrice) {
+
+    constructor(id, name, desc, img_sm, cardPrice) {  //similar to ruby setters they allow us to use poperties with instances using "this" as a means of reffering tot he instance of the object.
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -7,7 +8,7 @@ class Card {
         this.cardPrice = cardPrice;
     }
 
-    displayCardsFromApi(){
+    displayCardsFromApi(){ //displays cards from the External API includes the add to cart function
         let cardCollection = document.getElementById("card-collection")
         cardCollection.innerHTML +=
         `
@@ -24,7 +25,7 @@ class Card {
         `
     }
 
-    displayCardsFromCart(){
+    displayCardsFromCart(){//displays cards from the internal API includes the edit and delete functions
         let cardCollection = document.getElementById("card-collection")
         cardCollection.innerHTML +=
         `
@@ -40,7 +41,7 @@ class Card {
         `
     }
 
-    replaceCardAfterEdit(cardID){
+    replaceCardAfterEdit(cardID){//After we are done editing in the DB we use this function to do a live replace of the card we edited
         let cardCollection = document.getElementById(cardID)
         cardCollection.innerHTML =
         `
