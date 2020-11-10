@@ -1,8 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     getAllCardsFromApi()
     cumulativeTotal()
+    addPricyCard()
 });
 const BaseUrl = "http://127.0.0.1:3000"//Base url to save me some time
+
+
+//////////////////////////////////////////////////////////////test
+function addPricyCard(){
+    let buttonLocation = document.getElementById("button")
+    buttonLocation.addEventListener('click', testCard)
+}
+
+function testCard(){
+    fetch(`${BaseUrl}/cards`)
+        .then(resp => resp.json())
+        .then(cards => {
+            cards.sort(function(a, b){return b.price - a.price});
+            alert(cards[0].name)
+        }) 
+}
+//notes make use of carts model on backend
+//practice more
+//do the algo problems again
+//organize code better look at cernean and nicky code
+//for infor from a db use backend[rails ] AR is quicker
+//take a look at A&b js style guide
+
 
 ////////////////////////////////////////////////////////////////create
 function addToCart(){
@@ -46,7 +70,7 @@ function addToCart(){
 function getAllCardsFromApi(){//gets all the cards from the external API
     event.preventDefault()
     let cardCollection = document.getElementById("card-collection")
-    cardCollection.innerHTML = ''
+    cardCollection.innerHTML = '' //Put this inside "THEN"
     fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php?level=12')//gets all the cards from the external API
         .then(response => response.json()) //converts our response to json
         .then(cards => { //Helps us organize the data we recieve 
@@ -104,7 +128,7 @@ function editCardForm(){ //creating a new form
     </form>
     `
 
-    document.addEventListener('submit', editCard) //Upon submit we want to trigger the edit function.
+    document.addEventListener('submit', editCard) //Upon submit we want to trigger the edit function. we dont use parenthases on the function bc we dont want to the function to execute when its read. we want it's referenc. and we want it to exucute under the circumstance that a particualr event happens.
 }
 
 function editCard(){ // the part of the edit that actually updates the DB
@@ -179,10 +203,11 @@ function cumulativeTotal(){
     //event.preventDefault() 
     let total_location = document.getElementById("card-total") //locates where to put the price total on the html 
     total_location.innerHTML = "" //sets it to empty so that we get a live update as we go
-    fetch(`${BaseUrl}/carts`) // goes into the carts db to read the price value
+    fetch(`${BaseUrl}/carts/1`) // goes into the carts db to read the price value
         .then(response => response.json()) //converts response to json
         .then(data => { 
-            let total_price = parseFloat(data[0].cumulative_price.toFixed(2)) //takes total price from db and converts it to a float with 2 decimal point. might seem kinda redundent but if I dont do this the value in the db looks kinda funky
+            let total_price = parseFloat(data.cumulative_price.toFixed(2)) //takes total price from db and converts it to a float with 2 decimal point. might seem kinda redundent but if I dont do this the value in the db looks kinda funky
+            
             if (total_price <= 0.00){ // to prevent the value being displayed as "-0.00"
                 total_price = "0.00"
             }
